@@ -11,7 +11,7 @@
     "js": ["inject-content.js"],
     "matches":["http://striker:8112/*"]
   }],
-  "web_accessible_resources":["content.js"],
+  "web_accessible_resources":["content.js", "zepto.js"],
   "permissions":[
     "cookies",
     "https://localhost:8192/*",
