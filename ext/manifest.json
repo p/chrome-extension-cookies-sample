@@ -1,0 +1,21 @@
+{
+  "name": "Cookie Setter",
+  "description": "Cookie setting sample extension",
+  "version": "1.0",
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [{
+    "js": ["inject-content.js"],
+    "matches":["http://striker:8112/*"]
+  }],
+  "web_accessible_resources":["content.js"],
+  "permissions":[
+    "cookies",
+    "https://localhost:8192/*",
+    "https://striker:8112/*"
+  ],
+  "manifest_version": 2
+}
