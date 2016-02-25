@@ -15,6 +15,15 @@ def index():
         
     return '<html><body><p>%s</p><p><a href="/set-cookie">Set cookie</a></p></body></html>' % status
 
+@app.route('/status')
+def status():
+    if 'now' in bottle.request.cookies:
+        status = 'Cookie is set: %s' % bottle.request.cookies['now']
+    else:
+        status = 'Cookie is not set'
+        
+    return status
+
 @app.route('/set-cookie')
 def set_cookie():
     bottle.response.set_cookie('now', str(int(_time.time())))
