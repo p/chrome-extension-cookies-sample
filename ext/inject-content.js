@@ -18,6 +18,11 @@ function injectScript(url, callback) {
   };
 }
 
+window.addEventListener("PassToBackground", function(evt) {
+  chrome.runtime.sendMessage(evt.detail);
+  //alert(evt.detail);
+}, false);
+
 injectScript('zepto.js', function() {
   injectScript('content.js');
 });

@@ -14,8 +14,8 @@
   "web_accessible_resources":["content.js", "zepto.js"],
   "permissions":[
     "cookies",
-    "https://localhost:8192/*",
-    "https://striker:8112/*"
+    "http://localhost:8192/*",
+    "http://striker:8112/*"
   ],
   "manifest_version": 2
 }
