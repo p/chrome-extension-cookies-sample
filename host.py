@@ -21,6 +21,7 @@ def status():
     else:
         status = 'Cookie is not set'
         
+    bottle.response.content_type = 'text/plain'
     return status
 
 app.run(port=8112)

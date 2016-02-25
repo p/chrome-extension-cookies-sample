@@ -22,6 +22,8 @@ def status():
     else:
         status = 'Cookie is not set'
         
+    bottle.response.content_type = 'text/plain'
+    bottle.response.set_header('access-control-allow-origin', '*')
     return status
 
 @app.route('/set-cookie')
