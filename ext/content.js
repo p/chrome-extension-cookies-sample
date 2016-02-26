@@ -1,8 +1,23 @@
-var message = {action: 'getCookies'};
-var event = new CustomEvent("PassToBackground", {detail: message});
-window.dispatchEvent(event);
+// http://stackoverflow.com/questions/9515704/building-a-chrome-extension-inject-code-in-a-page-using-a-content-script
+// http://stackoverflow.com/questions/9263671/google-chome-application-shortcut-how-to-auto-load-javascript/9310273#9310273
 
-$.ajax({url: 'http://localhost:8192/status', success: function(data, status, xhr) {
-  //alert(data)
-  //debugger;
-}});
+function injectScript(url, callback) {
+  var s = document.createElement('script');
+  var url = chrome.extension.getURL(url);
+  s.src = url;
+  (document.head||document.documentElement).appendChild(s);
+  s.onload = function() {
+    s.parentNode.removeChild(s);
+    if (callback) {
+      callback.apply(this);
+    }
+  };
+}
+
+window.addEventListener("PassToBackground", function(evt) {
+  chrome.runtime.sendMessage(evt.detail);
+}, false);
+
+injectScript('zepto.js', function() {
+  injectScript('page.js');
+});

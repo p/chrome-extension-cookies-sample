@@ -8,10 +8,10 @@
     ]
   },
   "content_scripts": [{
-    "js": ["inject-content.js"],
+    "js": ["content.js"],
     "matches":["http://striker:8112/*"]
   }],
-  "web_accessible_resources":["content.js", "zepto.js"],
+  "web_accessible_resources":["page.js", "zepto.js"],
   "permissions":[
     "cookies",
     "http://localhost:8192/*",
