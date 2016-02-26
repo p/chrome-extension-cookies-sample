@@ -15,7 +15,12 @@ function injectScript(url, callback) {
 }
 
 window.addEventListener("PassToBackground", function(evt) {
-  chrome.runtime.sendMessage(evt.detail);
+  // https://developer.chrome.com/extensions/messaging#simple
+  chrome.runtime.sendMessage(evt.detail, function(response) {
+    var message = {action: 'gotCookies', name: 'now', value: response.cookieValue};
+    var event = new CustomEvent("PassToPage", {detail: message});
+    window.dispatchEvent(event);
+  });
 }, false);
 
 injectScript('zepto.js', function() {

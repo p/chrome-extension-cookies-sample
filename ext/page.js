@@ -1,3 +1,10 @@
+window.addEventListener("PassToPage", function(evt) {
+  var detail = evt.detail;
+  if (detail.action == 'gotCookies') {
+    $('#localhost-cookie').text('localhost cookie: ' + detail.name + '=' + detail.value);
+  }
+});
+
 var message = {action: 'getCookies'};
 var event = new CustomEvent("PassToBackground", {detail: message});
 window.dispatchEvent(event);
