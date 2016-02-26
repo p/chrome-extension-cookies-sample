@@ -23,7 +23,9 @@ def status():
         status = 'Cookie is not set'
         
     bottle.response.content_type = 'text/plain'
-    bottle.response.set_header('access-control-allow-origin', '*')
+    # no trailing slash below, unlike URLs given in
+    # Chrome extension configuration
+    bottle.response.set_header('access-control-allow-origin', 'http://striker:8112')
     return status
 
 @app.route('/set-cookie')

@@ -6,25 +6,18 @@ function injectScript(url, callback) {
   var url = chrome.extension.getURL(url);
   s.src = url;
   (document.head||document.documentElement).appendChild(s);
-  //alert(s);
   s.onload = function() {
-  //alert(callback);
-  //debugger;
-    ///alert(window.$);
-      s.parentNode.removeChild(s);
-      if (callback) {
-        callback.apply(this);
-      }
+    s.parentNode.removeChild(s);
+    if (callback) {
+      callback.apply(this);
+    }
   };
 }
 
 window.addEventListener("PassToBackground", function(evt) {
   chrome.runtime.sendMessage(evt.detail);
-  //alert(evt.detail);
 }, false);
 
 injectScript('zepto.js', function() {
   injectScript('content.js');
 });
-
-//alert('in injector');
