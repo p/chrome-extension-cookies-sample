@@ -9,13 +9,13 @@ chrome.runtime.onMessage.addListener(
     if (request.action == "getCookies")
       // Get cookies on the target domain;
       // this requires permissions to be appropriately configured.
-      chrome.cookies.get({url:'http://localhost:8192/', name:'now'},
+      chrome.cookies.get({url:'http://localhost:8192/', name: 'now'},
       
       // Get cookies on the host page's domain;
       // this does not require permission configuration.
       // If this call works but the localhost call above does not,
       // your permissions are not properly configured.
-      //chrome.cookies.get({url:'http://striker:8112/', name:'now'},
+      //chrome.cookies.get({url: 'http://striker:8112/', name: 'now'},
         function(cookie) {
           sendResponse({cookieValue: cookie && cookie.value});
       })
