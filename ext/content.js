@@ -1,4 +1,4 @@
-var message = {hello:'world'};
+var message = {action: 'getCookies'};
 var event = new CustomEvent("PassToBackground", {detail: message});
 window.dispatchEvent(event);
 
