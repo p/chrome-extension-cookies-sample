@@ -47,7 +47,11 @@ chrome.runtime.onMessage.addListener(
       // your permissions are not properly configured.
       //chrome.cookies.get({url: 'http://striker:8112', name: request.cookieName},
         function(cookie) {
-          sendResponse({cookieName: request.cookieName, cookieValue: cookie && cookie.value});
+          sendResponse({
+            cookieName: request.cookieName,
+            cookieValue: cookie && cookie.value,
+            callbackKey: request.callbackKey,
+          });
       })
       
     // http://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
