@@ -1,5 +1,5 @@
 var allowedUrls = [
-  'http://striker:8112/',
+  'http://localhost:8192/',
 ];
 
 chrome.runtime.onMessage.addListener(
@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener(
       // this does not require permission configuration.
       // If this call works but the localhost call above does not,
       // your permissions are not properly configured.
-      //chrome.cookies.get({url: url, name: request.cookieName},
+      //chrome.cookies.get({url: 'http://striker:8112', name: request.cookieName},
         function(cookie) {
           sendResponse({cookieName: request.cookieName, cookieValue: cookie && cookie.value});
       })

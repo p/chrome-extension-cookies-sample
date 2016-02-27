@@ -5,7 +5,7 @@ window.addEventListener("PassToPage", function(evt) {
   }
 });
 
-var message = {action: 'getCookies', url: 'http://striker:8112/', cookieName: 'now'};
+var message = {action: 'getCookies', url: 'http://localhost:8192/', cookieName: 'now'};
 var event = new CustomEvent("PassToBackground", {detail: message});
 window.dispatchEvent(event);
 
