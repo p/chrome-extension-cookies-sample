@@ -17,7 +17,7 @@ function injectScript(url, callback) {
 window.addEventListener("PassToBackground", function(evt) {
   // https://developer.chrome.com/extensions/messaging#simple
   chrome.runtime.sendMessage(evt.detail, function(response) {
-    var message = {action: 'gotCookies', cookieName: 'now', cookieValue: response.cookieValue};
+    var message = {action: 'gotCookies', cookieName: response.cookieName, cookieValue: response.cookieValue};
     var event = new CustomEvent("PassToPage", {detail: message});
     window.dispatchEvent(event);
   });
