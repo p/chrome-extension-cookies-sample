@@ -46,7 +46,11 @@ var message = {
 };
 passToBackground(message);
 
+// Use this for debugging, to check that zepto.js is loaded
+// and ajax works.
+/*
 $.ajax({url: 'http://localhost:8192/status', success: function(data, status, xhr) {
   //alert(data)
   //debugger;
 }});
+*/

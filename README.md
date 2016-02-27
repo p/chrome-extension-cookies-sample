@@ -82,7 +82,7 @@ As shown above, the content code uses [chrome.runtime.sendMessage](https://devel
 API to send an event to the background code:
 
       chrome.runtime.sendMessage(evt.detail, function(response) {
-        // handle response from background context
+        // handle response from background context - will write later
       });
 
 The background code listens for this event and reads the cookies:
