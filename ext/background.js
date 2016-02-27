@@ -1,3 +1,7 @@
+var allowedUrls = [
+  'http://striker:8112/',
+];
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     // if sender.tab is set, the message came from a content script;
@@ -7,15 +11,27 @@ chrome.runtime.onMessage.addListener(
     }
     
     if (request.action == "getCookies")
+      var url = request.url;
+      var urlOk = false;
+      for (var i = 0; i < allowedUrls.length; ++i) {
+        if (url === allowedUrls[i]) {
+          urlOk = true;
+          break;
+        }
+      }
+      if (!urlOk) {
+        return;
+      }
+      
       // Get cookies on the target domain;
       // this requires permissions to be appropriately configured.
-      chrome.cookies.get({url:'http://localhost:8192/', name: request.cookieName},
+      chrome.cookies.get({url: url, name: request.cookieName},
       
       // Get cookies on the host page's domain;
       // this does not require permission configuration.
       // If this call works but the localhost call above does not,
       // your permissions are not properly configured.
-      //chrome.cookies.get({url: 'http://striker:8112/', name: request.cookieName},
+      //chrome.cookies.get({url: url, name: request.cookieName},
         function(cookie) {
           sendResponse({cookieValue: cookie && cookie.value});
       })
