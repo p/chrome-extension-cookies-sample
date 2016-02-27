@@ -1,7 +1,7 @@
 window.addEventListener("PassToPage", function(evt) {
   var detail = evt.detail;
   if (detail.action == 'gotCookies') {
-    $('#localhost-cookie').text('localhost cookie: ' + detail.name + '=' + detail.value);
+    $('#localhost-cookie').text('localhost cookie: ' + detail.cookieName + '=' + detail.cookieValue);
   }
 });
 
