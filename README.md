@@ -57,9 +57,17 @@ method.
 ### Page To Content: Custom Event
 
 The cookie retrieval is triggered when the host page loads.
-A custom event is created in the page context and sent to the content context:
+In the page context we create a custom event containing the action
+we want our background code to perform (`getCookies`), the URL
+to retrieve the cookies for and the name of the cookie to retrieve.
+This event is then dispatched:
 
-    var message = {action: 'getCookies'};
+    // our payoad
+    var message = {
+      action: 'getCookies',
+      url: 'http://localhost:8192/',
+      cookieName: 'now',
+    };
     var event = new CustomEvent("PassToBackground", {detail: message});
     window.dispatchEvent(event);
 
@@ -67,8 +75,9 @@ Content script listens for this event and forwards it to the background
 context:
 
     window.addEventListener("PassToBackground", function(evt) {
+      // evt.detail has our message/payload
       chrome.runtime.sendMessage(evt.detail, function(response) {
-        // handle response from background context
+        // handle response from background context - will write later
       });
     }, false);
 
@@ -86,6 +95,41 @@ API to send an event to the background code:
       });
 
 The background code listens for this event and reads the cookies:
+
+    // listen for sendMessage events
+    chrome.runtime.onMessage.addListener(
+      // our event handler
+      function(request, sender, sendResponse) {
+        if (request.action == "getCookies") {
+          // handle the event.
+          // request has our message/payload.
+          // perform security checks here, then do the work.
+          // call sendResponse when done.
+          // if sendResponse is called asynchronously,
+          // this event handler must return true
+        }
+      }
+    );
+
+### Reading Cookies
+
+We need to send something back, hence let's read the cookies on the target
+site. This is easy:
+
+    if (request.action == "getCookies") {
+      chrome.cookies.get({url: request.url, name: request.cookieName},
+        function(cookie) {
+          // return the cookie to content context
+          sendResponse({
+            cookieName: request.cookieName,
+            cookieValue: cookie && cookie.value,
+          });
+      })
+      // cookie retrieval is asynchronous, event handler must return true
+      return true;
+    }
+
+The important point here is that cookie retrieval is asynchronous -
 
 
 ## Resources
