@@ -1,8 +1,11 @@
 var allowedRemoteUrls = [
-  'http://localhost:8192/',
+  // Chrome disallows setting Cookie header on requests to localhost,
+  // hence the target here must be aliased if running all code locally.
+  // http://stackoverflow.com/questions/11182712/refused-to-set-unsafe-header-origin-when-using-xmlhttprequest-of-google-chrome
+  'http://faketarget:8192/',
 ];
 var allowedHostUrls = [
-  'http://striker:8112',
+  'http://fakehost:8112',
 ];
 
 chrome.runtime.onMessage.addListener(
@@ -43,9 +46,9 @@ chrome.runtime.onMessage.addListener(
 
       // Get cookies on the host page's domain;
       // this does not require permission configuration.
-      // If this call works but the localhost call above does not,
+      // If this call works but the fakehost call does not,
       // your permissions are not properly configured.
-      //chrome.cookies.get({url: 'http://striker:8112', name: request.cookieName},
+      //chrome.cookies.get({url: 'http://faketarget:8112', name: request.cookieName},
         function(cookie) {
           sendResponse({
             cookieName: request.cookieName,

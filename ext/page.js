@@ -38,10 +38,11 @@ function passToBackground(message) {
 
 var message = {
   action: 'getCookies',
-  url: 'http://localhost:8192/',
+  url: 'http://faketarget:8192/',
   cookieName: 'now',
   callback: function(response) {
-    $('#localhost-cookie').text('localhost cookie: ' + response.cookieName + '=' + response.cookieValue);
+    var cookieText = response.cookieName + '=' + response.cookieValue;
+    $('#target-cookie').text('target cookie: ' + cookieText);
   },
 };
 passToBackground(message);
@@ -49,7 +50,7 @@ passToBackground(message);
 // Use this for debugging, to check that zepto.js is loaded
 // and ajax works.
 /*
-$.ajax({url: 'http://localhost:8192/status', success: function(data, status, xhr) {
+$.ajax({url: 'http://faketarget:8192/status', success: function(data, status, xhr) {
   //alert(data)
   //debugger;
 }});

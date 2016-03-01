@@ -12,7 +12,7 @@ def index():
     else:
         status = 'Cookie is not set'
         
-    return '<html><body><p>%s</p><p><a href="/set-cookie">Set cookie</a></p><p id="localhost-cookie"></p></body></html>' % status
+    return '<html><body><p>%s</p><p><a href="/set-cookie">Set cookie</a></p><p id="target-cookie"></p></body></html>' % status
 
 @app.route('/status')
 def status():
@@ -24,4 +24,4 @@ def status():
     bottle.response.content_type = 'text/plain'
     return status
 
-app.run(port=8112)
+app.run(port=8112, host='0.0.0.0')

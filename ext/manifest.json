@@ -9,13 +9,13 @@
   },
   "content_scripts": [{
     "js": ["content.js"],
-    "matches":["http://striker:8112/*"]
+    "matches":["http://fakehost:8112/*"]
   }],
   "web_accessible_resources":["page.js", "zepto.js"],
   "permissions":[
     "cookies",
-    "http://localhost:8192/*",
-    "http://striker:8112/*"
+    "http://faketarget:8192/*",
+    "http://fakehost:8112/*"
   ],
   "manifest_version": 2
 }

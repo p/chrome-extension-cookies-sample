@@ -25,7 +25,7 @@ def status():
     bottle.response.content_type = 'text/plain'
     # no trailing slash below, unlike URLs given in
     # Chrome extension configuration
-    bottle.response.set_header('access-control-allow-origin', 'http://striker:8112')
+    bottle.response.set_header('access-control-allow-origin', 'http://fakehost:8112')
     return status
 
 @app.route('/set-cookie')
@@ -33,4 +33,4 @@ def set_cookie():
     bottle.response.set_cookie('now', str(int(_time.time())))
     bottle.redirect('/')
 
-app.run(port=8192)
+app.run(port=8192, host='0.0.0.0')
