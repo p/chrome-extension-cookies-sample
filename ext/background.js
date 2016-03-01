@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener(
     if (!sender.tab) {
       return;
     }
-    
+
     var hostOk = false;
     for (var i = 0; i < allowedHostUrls.length; ++i) {
       if (sender.tab.url.indexOf(allowedHostUrls[0]) === 0) {
@@ -23,8 +23,8 @@ chrome.runtime.onMessage.addListener(
     if (!hostOk) {
       return;
     }
-    
-    if (request.action == "getCookies")
+
+    if (request.action == "getCookies") {
       var url = request.url;
       var urlOk = false;
       for (var i = 0; i < allowedRemoteUrls.length; ++i) {
@@ -36,11 +36,11 @@ chrome.runtime.onMessage.addListener(
       if (!urlOk) {
         return;
       }
-      
+
       // Get cookies on the target domain;
       // this requires permissions to be appropriately configured.
       chrome.cookies.get({url: url, name: request.cookieName},
-      
+
       // Get cookies on the host page's domain;
       // this does not require permission configuration.
       // If this call works but the localhost call above does not,
@@ -53,8 +53,9 @@ chrome.runtime.onMessage.addListener(
             callbackKey: request.callbackKey,
           });
       })
-      
-    // http://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
-    return true;
+
+      // http://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
+      return true;
+    }
   }
 );
