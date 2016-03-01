@@ -9,7 +9,7 @@ function injectScript(url, callback) {
   s.onload = function() {
     s.parentNode.removeChild(s);
     if (callback) {
-      callback.apply(this);
+      callback.call(this);
     }
   };
 }

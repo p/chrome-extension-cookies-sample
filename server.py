@@ -28,6 +28,10 @@ def status():
     bottle.response.set_header('access-control-allow-origin', 'http://fakehost:8112')
     return status
 
+@app.route('/status/xhr')
+def status_xhr():
+    pass
+
 @app.route('/set-cookie')
 def set_cookie():
     bottle.response.set_cookie('now', str(int(_time.time())))

