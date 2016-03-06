@@ -12,7 +12,9 @@ def index():
     else:
         status = 'Cookie is not set'
         
-    return '<html><body><p>%s</p><p><a href="/set-cookie">Set cookie</a></p><p id="target-cookie"></p></body></html>' % status
+    with open('host.html') as f:
+        content = f.read()
+    return content % dict(status=status)
 
 @app.route('/status')
 def status():
