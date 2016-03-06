@@ -3,9 +3,8 @@
   "description": "Cookie setting sample extension",
   "version": "1.0",
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "page": "background.html",
+    "persistent": true
   },
   "content_scripts": [{
     "js": ["content.js"],
@@ -14,6 +13,8 @@
   "web_accessible_resources":["page.js", "zepto.js"],
   "permissions":[
     "cookies",
+    "webRequest",
+    "webRequestBlocking",
     "http://faketarget:8192/*",
     "http://fakehost:8112/*"
   ],
