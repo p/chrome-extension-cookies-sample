@@ -66,6 +66,7 @@ var restrictedChromeHeaders = [
     "VIA"
 ];
 
+/*
 var postmanCheckTimeout = null;
 var isPostmanOpen = true;
 setInterval(function() {
@@ -100,6 +101,7 @@ function setBlueIcon() {
 function setOrangeIcon() {
 	chrome.browserAction.setIcon({path:'interceptor_48x48.png'});
 }
+*/
 
 function getBase64FromArrayBuffer(responseData) {
     var uInt8Array = new Uint8Array(responseData);
@@ -535,6 +537,7 @@ function addToQueue(request) {
 
 // responds to a message from postman - adds the XHR from postman to queue
 function onExternalMessage(request, sender, sendResponse) {
+alert('here')
     if (sender.id in blacklistedIds) {
       sendResponse({"result":"sorry, could not process your message"});
       return;
@@ -745,6 +748,7 @@ function addClassForRequest(methods) {
 	return 'label' + color;
 }
 
+/*
 // long-lived connection to the popupchannel (as popup is opened)
 // notifies when popup can start listening
 chrome.runtime.onConnect.addListener(function(port){
@@ -784,6 +788,7 @@ chrome.runtime.onConnect.addListener(function(port){
   });
 
 });
+*/
 
 // adds an event listener to the onBeforeSendHeaders
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders,
@@ -791,9 +796,12 @@ chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders,
 	[ "blocking", "requestHeaders" ]
 );
 
+/*
 // event listener called when postman sends a request (in the form of a message)
-chrome.runtime.onMessageExternal.addListener(onExternalMessage);
+chrome.runtime.onMessage.addListener(onExternalMessage);
+*/
 
+/*
 // event listener called for each request to intercept - used to intercept request data
 chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, 
     { urls: ["<all_urls>"] }, 
@@ -810,7 +818,9 @@ chrome.webRequest.onSendHeaders.addListener(onSendHeaders,
     { urls: ["<all_urls>"] }, 
     [ "requestHeaders" ]
 );
+*/
 
+/*
 //creates a context menu link to import curl
 chrome.contextMenus.create({
     "title": "Import CURL in Postman",
@@ -832,3 +842,4 @@ var sendToPostman = function(selection) {
 
     chrome.runtime.sendMessage(postmanAppId, message, function(extResponse) {});
 }
+*/
