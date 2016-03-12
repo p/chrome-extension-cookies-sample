@@ -14,7 +14,7 @@ function injectScript(url, callback) {
   };
 }
 
-window.addEventListener("PassToBackground", function(evt) {
+function handlePassToBackground(evt) {
   // https://developer.chrome.com/extensions/messaging#simple
   chrome.runtime.sendMessage(evt.detail, function(response) {
     var message = {
@@ -25,7 +25,9 @@ window.addEventListener("PassToBackground", function(evt) {
     var event = new CustomEvent("PassToPage", {detail: message});
     window.dispatchEvent(event);
   });
-}, false);
+}
+
+window.addEventListener("PassToBackground", handlePassToBackground, false);
 
 injectScript('zepto.js', function() {
   injectScript('page.js');

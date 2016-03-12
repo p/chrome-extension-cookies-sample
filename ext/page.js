@@ -11,7 +11,7 @@ function generateUniqueKey() {
   return key;
 }
 
-window.addEventListener("PassToPage", function(evt) {
+function handlePassToPage(evt) {
   var detail = evt.detail;
   if (detail.action == 'getCookies' || detail.action == 'xhr') {
     if (detail.callbackKey) {
@@ -23,7 +23,7 @@ window.addEventListener("PassToPage", function(evt) {
       }
     }
   }
-});
+}
 
 function passToBackground(message) {
   var callbackKey = generateUniqueKey();
@@ -35,6 +35,8 @@ function passToBackground(message) {
   var event = new CustomEvent("PassToBackground", {detail: message});
   window.dispatchEvent(event);
 }
+
+window.addEventListener("PassToPage", handlePassToPage);
 
 var message = {
   action: 'getCookies',
