@@ -18,10 +18,9 @@ window.addEventListener("PassToBackground", function(evt) {
   // https://developer.chrome.com/extensions/messaging#simple
   chrome.runtime.sendMessage(evt.detail, function(response) {
     var message = {
-      action: 'gotCookies',
-      cookieName: response.cookieName,
-      cookieValue: response.cookieValue,
+      action: evt.detail.action,
       callbackKey: response.callbackKey,
+      result: response.result,
     };
     var event = new CustomEvent("PassToPage", {detail: message});
     window.dispatchEvent(event);

