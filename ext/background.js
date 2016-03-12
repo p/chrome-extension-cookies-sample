@@ -1,14 +1,11 @@
-var allowedRemoteUrls = [
-  // Chrome disallows setting Cookie header on requests to localhost,
-  // hence the target here must be aliased if running all code locally.
-  // http://stackoverflow.com/questions/11182712/refused-to-set-unsafe-header-origin-when-using-xmlhttprequest-of-google-chrome
-  'http://faketarget:8192/',
-];
-var allowedHostUrls = [
-  'http://fakehost:8112',
-];
+function MessageHandler(options) {
+  options = options || {};
 
-function onMessageHandler(request, sender, sendResponse) {
+  this.allowedRemoteUrls = options.allowedRemoteUrls;
+  this.allowedHostUrls = options.allowedHostUrls;
+}
+
+MessageHandler.prototype.onMessageHandler = function(request, sender, sendResponse) {
   // if sender.tab is set, the message came from a content script;
   // otherwise, the message came from an extension(?)
   if (!sender.tab) {
@@ -16,8 +13,8 @@ function onMessageHandler(request, sender, sendResponse) {
   }
 
   var hostOk = false;
-  for (var i = 0; i < allowedHostUrls.length; ++i) {
-    if (sender.tab.url.indexOf(allowedHostUrls[0]) === 0) {
+  for (var i = 0; i < this.allowedHostUrls.length; ++i) {
+    if (sender.tab.url.indexOf(this.allowedHostUrls[0]) === 0) {
       hostOk = true;
       break;
     }
@@ -29,8 +26,8 @@ function onMessageHandler(request, sender, sendResponse) {
   if (request.action == "getCookies") {
     var url = request.url;
     var urlOk = false;
-    for (var i = 0; i < allowedRemoteUrls.length; ++i) {
-      if (url === allowedRemoteUrls[i]) {
+    for (var i = 0; i < this.allowedRemoteUrls.length; ++i) {
+      if (url === this.allowedRemoteUrls[i]) {
         urlOk = true;
         break;
       }
@@ -78,6 +75,23 @@ function onMessageHandler(request, sender, sendResponse) {
 
     return true;
   }
-}
+};
 
-chrome.runtime.onMessage.addListener(onMessageHandler);
+MessageHandler.prototype.install = function() {
+  chrome.runtime.onMessage.addListener(this.onMessageHandler.bind(this));
+};
+
+var allowedRemoteUrls = [
+  // Chrome disallows setting Cookie header on requests to localhost,
+  // hence the target here must be aliased if running all code locally.
+  // http://stackoverflow.com/questions/11182712/refused-to-set-unsafe-header-origin-when-using-xmlhttprequest-of-google-chrome
+  'http://faketarget:8192/',
+];
+var allowedHostUrls = [
+  'http://fakehost:8112',
+];
+
+(new MessageHandler({
+  allowedRemoteUrls: allowedRemoteUrls,
+  allowedHostUrls: allowedHostUrls,
+})).install();
