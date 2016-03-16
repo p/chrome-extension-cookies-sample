@@ -14,23 +14,27 @@ function generateUniqueKey() {
 function handlePassToPage(evt) {
   var detail = evt.detail;
   if (detail.action == 'getCookies' || detail.action == 'xhr') {
-    if (detail.callbackKey) {
+    if (detail.callbackKey !== undefined) {
       var callback = callbackRegistry[detail.callbackKey];
-      detail.callbackKey = undefined;
       if (callback) {
         callbackRegistry[detail.callbackKey] = undefined;
         callback.call(null, detail.result);
+      } else {
+        console.log("No callback for key " + detail.callbackKey);
       }
     }
   }
 }
 
 function passToBackground(message) {
-  var callbackKey = generateUniqueKey();
+  if (message.callback !== undefined) {
+    message = Object.assign({}, message);
+    var callbackKey = generateUniqueKey();
 
-  callbackRegistry[callbackKey] = message.callback;
-  message.callback = undefined;
-  message.callbackKey = callbackKey;
+    callbackRegistry[callbackKey] = message.callback;
+    delete message.callback;
+    message.callbackKey = callbackKey;
+  }
 
   var event = new CustomEvent("PassToBackground", {detail: message});
   window.dispatchEvent(event);
